@@ -10,7 +10,7 @@ const sparklePositions = [
   { top: "42%", left: "54%", delay: 1.6 },
 ];
 
-export function CentralFountain() {
+export function CentralFountain({ onOpen }: { onOpen: () => void }) {
   return (
     <div className="absolute left-1/2 top-1/2 z-30 -translate-x-1/2 -translate-y-1/2">
       <motion.div
@@ -30,7 +30,10 @@ export function CentralFountain() {
         type="button"
         aria-label="Open the inspiration fountain"
         className="group relative block h-[clamp(8.8rem,13.5vw,10.8rem)] w-[clamp(8.8rem,13.5vw,10.8rem)] cursor-pointer"
-        onClick={(event) => event.stopPropagation()}
+        onClick={(event) => {
+          event.stopPropagation();
+          onOpen();
+        }}
         whileHover={{
           y: -4,
           scale: 1.02,

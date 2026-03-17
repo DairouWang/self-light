@@ -8,6 +8,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { CentralFountain } from "./CentralFountain";
+import { FountainInputModal } from "./FountainInputModal";
 import { GardenZone } from "./GardenZone";
 import { sampleInsights, sampleTiles } from "@/lib/data/sampleTiles";
 import { ZONE_CONFIG } from "@/lib/types/garden";
@@ -77,7 +78,11 @@ function OuterZoneMarker({
 }
 
 export function GardenPage() {
+  const [insights] = useState(sampleInsights);
+  const [tiles] = useState(sampleTiles);
   const [selectedTileId, setSelectedTileId] = useState<string | null>(null);
+  const [inputOpen, setInputOpen] = useState(false);
+  const [draftInput, setDraftInput] = useState("");
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
 
@@ -99,7 +104,7 @@ export function GardenPage() {
   );
 
   const tilesByZone = (zone: GardenZoneType) =>
-    sampleTiles.filter((tile) => tile.zone === zone);
+    tiles.filter((tile) => tile.zone === zone);
 
   function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -113,6 +118,20 @@ export function GardenPage() {
   function handlePointerLeave() {
     pointerX.set(0);
     pointerY.set(0);
+  }
+
+  function handleOpenInput() {
+    setSelectedTileId(null);
+    setInputOpen(true);
+  }
+
+  function handleCloseInput() {
+    setInputOpen(false);
+  }
+
+  function handleDraftSubmit(input: string) {
+    setDraftInput(input);
+    setInputOpen(false);
   }
 
   return (
@@ -194,36 +213,44 @@ export function GardenPage() {
             <GardenZone
               zone="self"
               tiles={tilesByZone("self")}
-              insights={sampleInsights}
+              insights={insights}
               onTileSelect={setSelectedTileId}
               selectedTileId={selectedTileId}
             />
             <GardenZone
               zone="emotion"
               tiles={tilesByZone("emotion")}
-              insights={sampleInsights}
+              insights={insights}
               onTileSelect={setSelectedTileId}
               selectedTileId={selectedTileId}
             />
             <GardenZone
               zone="relationship"
               tiles={tilesByZone("relationship")}
-              insights={sampleInsights}
+              insights={insights}
               onTileSelect={setSelectedTileId}
               selectedTileId={selectedTileId}
             />
             <GardenZone
               zone="direction"
               tiles={tilesByZone("direction")}
-              insights={sampleInsights}
+              insights={insights}
               onTileSelect={setSelectedTileId}
               selectedTileId={selectedTileId}
             />
 
-            <CentralFountain />
+            <CentralFountain onOpen={handleOpenInput} />
           </motion.div>
         </div>
       </div>
+
+      <FountainInputModal
+        open={inputOpen}
+        value={draftInput}
+        onValueChange={setDraftInput}
+        onClose={handleCloseInput}
+        onSubmit={handleDraftSubmit}
+      />
     </main>
   );
 }
