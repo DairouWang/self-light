@@ -46,7 +46,7 @@ export function FountainInputModal({
     }, 120);
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
+      if (event.key === "Escape" && !isSubmitting) {
         onClose();
       }
     }
@@ -58,7 +58,7 @@ export function FountainInputModal({
       window.clearTimeout(focusTimer);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [onClose, open, value.length]);
+  }, [isSubmitting, onClose, open, value.length]);
 
   function handleSubmit(event?: FormEvent<HTMLFormElement>) {
     event?.preventDefault();
@@ -92,7 +92,11 @@ export function FountainInputModal({
             type="button"
             aria-label="Close fountain input"
             className="absolute inset-0 cursor-default bg-[rgba(70,57,45,0.2)] backdrop-blur-md"
-            onClick={onClose}
+            onClick={() => {
+              if (!isSubmitting) {
+                onClose();
+              }
+            }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -129,14 +133,15 @@ export function FountainInputModal({
                   type="button"
                   className="rounded-full border border-white/55 bg-white/50 px-3 py-1 text-[0.72rem] uppercase tracking-[0.18em] text-[#7b6b5f] transition hover:bg-white/70"
                   onClick={onClose}
+                  disabled={isSubmitting}
                 >
                   Close
                 </button>
               </div>
 
               <p className="mt-4 max-w-[28rem] text-sm leading-relaxed text-[#6d5e52] sm:text-[0.96rem]">
-                Let the first draft be unpolished. The garden will shape it
-                later.
+                Keep it simple. The garden will turn the thought into one clear
+                realization.
               </p>
 
               <form className="mt-5 space-y-4" onSubmit={handleSubmit}>
@@ -146,7 +151,7 @@ export function FountainInputModal({
                     value={value}
                     onChange={(event) => onValueChange(event.target.value)}
                     onKeyDown={handleTextareaKeyDown}
-                    placeholder="What has been on your mind lately?"
+                    placeholder="What did you just realize?"
                     className={cn(
                       "min-h-40 w-full resize-none rounded-[22px] border border-transparent bg-[rgba(255,252,247,0.72)] px-4 py-3 text-[0.98rem] leading-relaxed text-[#4d4037] shadow-[inset_0_1px_0_rgba(255,255,255,0.34)] outline-none transition placeholder:text-[#9a8a7e] focus:border-[#d7c8b4] focus:bg-white",
                       errorMessage && "border-[#c98b7c]/70",
@@ -159,7 +164,7 @@ export function FountainInputModal({
                     {errorMessage ? (
                       <span className="text-[#a76457]">{errorMessage}</span>
                     ) : (
-                      "Press Enter to shape it, or Shift+Enter for a new line."
+                      "Press Enter to refine it, or Shift+Enter for a new line."
                     )}
                   </div>
 
@@ -168,7 +173,7 @@ export function FountainInputModal({
                     disabled={!trimmedValue || isSubmitting}
                     className="h-11 rounded-full border border-[#728563]/20 bg-[#6f8561] px-5 text-sm font-semibold text-[#fcf8ef] shadow-[0_16px_28px_rgba(111,133,97,0.28)] transition hover:bg-[#637956] disabled:bg-[#92a189]"
                   >
-                    {isSubmitting ? "Shaping..." : "Shape my thought"}
+                    {isSubmitting ? "Refining..." : "Refine it"}
                   </Button>
                 </div>
               </form>

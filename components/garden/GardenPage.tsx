@@ -10,9 +10,15 @@ import {
 import { CentralFountain } from "./CentralFountain";
 import { FountainInputModal } from "./FountainInputModal";
 import { GardenZone } from "./GardenZone";
-import { sampleInsights, sampleTiles } from "@/lib/data/sampleTiles";
-import { ZONE_CONFIG } from "@/lib/types/garden";
-import type { GardenZone as GardenZoneType } from "@/lib/types/garden";
+import { InsightDetailPanel } from "./InsightDetailPanel";
+import { InsightReviewModal } from "./InsightReviewModal";
+import { sampleInsightTiles } from "@/lib/data/sampleTiles";
+import { generateInsightMock } from "@/lib/mock/generateInsightMock";
+import { ZONE_CONFIG, type DraftInsight } from "@/lib/types/garden";
+import type {
+  GardenZone as GardenZoneType,
+  InsightTile,
+} from "@/lib/types/garden";
 
 const floatingMotes = [
   { top: "18%", left: "20%", size: "0.9rem", delay: 0.3 },
@@ -77,12 +83,28 @@ function OuterZoneMarker({
   );
 }
 
+function buildInsightTile(
+  draftInput: string,
+  draftOutput: DraftInsight,
+): InsightTile {
+  return {
+    id: `tile-${crypto.randomUUID()}`,
+    content: draftOutput.content,
+    zone: draftOutput.zone,
+    createdAt: new Date().toISOString(),
+    rawInput: draftInput.trim() || undefined,
+  };
+}
+
 export function GardenPage() {
-  const [insights] = useState(sampleInsights);
-  const [tiles] = useState(sampleTiles);
+  const [tiles, setTiles] = useState<InsightTile[]>(sampleInsightTiles);
   const [selectedTileId, setSelectedTileId] = useState<string | null>(null);
   const [inputOpen, setInputOpen] = useState(false);
+  const [reviewOpen, setReviewOpen] = useState(false);
   const [draftInput, setDraftInput] = useState("");
+  const [draftOutput, setDraftOutput] = useState<DraftInsight | null>(null);
+  const [isRefining, setIsRefining] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | undefined>();
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
 
@@ -103,6 +125,9 @@ export function GardenPage() {
     { stiffness: 140, damping: 22 },
   );
 
+  const selectedTile =
+    tiles.find((tile) => tile.id === selectedTileId) ?? null;
+
   const tilesByZone = (zone: GardenZoneType) =>
     tiles.filter((tile) => tile.zone === zone);
 
@@ -122,16 +147,62 @@ export function GardenPage() {
 
   function handleOpenInput() {
     setSelectedTileId(null);
+    setReviewOpen(false);
+    setErrorMessage(undefined);
     setInputOpen(true);
   }
 
   function handleCloseInput() {
+    if (isRefining) {
+      return;
+    }
+
     setInputOpen(false);
+    setErrorMessage(undefined);
   }
 
-  function handleDraftSubmit(input: string) {
+  async function handleDraftSubmit(input: string) {
     setDraftInput(input);
-    setInputOpen(false);
+    setErrorMessage(undefined);
+    setIsRefining(true);
+
+    try {
+      const nextDraft = await generateInsightMock(input);
+      setDraftOutput(nextDraft);
+      setInputOpen(false);
+      setReviewOpen(true);
+    } catch {
+      setErrorMessage("The thought could not be refined. Try again.");
+    } finally {
+      setIsRefining(false);
+    }
+  }
+
+  function handleEditDraft() {
+    setReviewOpen(false);
+    setInputOpen(true);
+  }
+
+  function handleDiscardDraft() {
+    setReviewOpen(false);
+    setDraftOutput(null);
+    setDraftInput("");
+    setErrorMessage(undefined);
+  }
+
+  function handleConfirmDraft() {
+    if (!draftOutput) {
+      return;
+    }
+
+    const nextTile = buildInsightTile(draftInput, draftOutput);
+
+    setTiles((currentTiles) => [...currentTiles, nextTile]);
+    setSelectedTileId(nextTile.id);
+    setReviewOpen(false);
+    setDraftOutput(null);
+    setDraftInput("");
+    setErrorMessage(undefined);
   }
 
   return (
@@ -213,28 +284,24 @@ export function GardenPage() {
             <GardenZone
               zone="self"
               tiles={tilesByZone("self")}
-              insights={insights}
               onTileSelect={setSelectedTileId}
               selectedTileId={selectedTileId}
             />
             <GardenZone
               zone="emotion"
               tiles={tilesByZone("emotion")}
-              insights={insights}
               onTileSelect={setSelectedTileId}
               selectedTileId={selectedTileId}
             />
             <GardenZone
               zone="relationship"
               tiles={tilesByZone("relationship")}
-              insights={insights}
               onTileSelect={setSelectedTileId}
               selectedTileId={selectedTileId}
             />
             <GardenZone
               zone="direction"
               tiles={tilesByZone("direction")}
-              insights={insights}
               onTileSelect={setSelectedTileId}
               selectedTileId={selectedTileId}
             />
@@ -247,9 +314,24 @@ export function GardenPage() {
       <FountainInputModal
         open={inputOpen}
         value={draftInput}
+        isSubmitting={isRefining}
+        errorMessage={errorMessage}
         onValueChange={setDraftInput}
         onClose={handleCloseInput}
         onSubmit={handleDraftSubmit}
+      />
+
+      <InsightReviewModal
+        open={reviewOpen}
+        draft={draftOutput}
+        onEdit={handleEditDraft}
+        onDiscard={handleDiscardDraft}
+        onConfirm={handleConfirmDraft}
+      />
+
+      <InsightDetailPanel
+        tile={selectedTile}
+        onClose={() => setSelectedTileId(null)}
       />
     </main>
   );

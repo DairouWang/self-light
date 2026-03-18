@@ -19,10 +19,10 @@ export function CentralFountain({ onOpen }: { onOpen: () => void }) {
         transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
       >
         <p className="font-display text-[1.2rem] leading-none tracking-[0.02em]">
-          Pour a thought
+          Turn a thought
         </p>
         <p className="mt-1 text-[0.72rem] uppercase tracking-[0.22em] text-[#857467]">
-          each insight becomes a path tile
+          into one clear tile
         </p>
       </motion.div>
 

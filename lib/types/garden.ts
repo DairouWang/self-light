@@ -8,6 +8,16 @@ export type PathMaterial =
   | "flower-brick"
   | "stone-brick";
 
+export type InsightTile = {
+  id: string;
+  content: string;
+  zone: GardenZone;
+  createdAt: string;
+  rawInput?: string;
+};
+
+export type DraftInsight = Pick<InsightTile, "content" | "zone">;
+
 export type DecorationKind =
   | "tree"
   | "log"
@@ -20,26 +30,6 @@ export type DecorationKind =
   | "hedge"
   | "topiary"
   | "pillar";
-
-export type Insight = {
-  id: string;
-  rawInput: string;
-  scene: string;
-  emotion: string;
-  insight: string;
-  action: string;
-  zone: GardenZone;
-  createdAt: string;
-};
-
-export type PathTile = {
-  id: string;
-  insightId: string;
-  zone: GardenZone;
-  x: number;
-  y: number;
-  material: PathMaterial;
-};
 
 export type GardenDecoration = {
   kind: DecorationKind;
@@ -66,6 +56,19 @@ export type ZoneConfig = {
   rowVector: { x: number; y: number };
   decorations: GardenDecoration[];
 };
+
+export function formatGardenZone(zone: GardenZone) {
+  switch (zone) {
+    case "self":
+      return "Self";
+    case "emotion":
+      return "Emotion";
+    case "relationship":
+      return "Relationship";
+    case "direction":
+      return "Direction";
+  }
+}
 
 export const ZONE_CONFIG: Record<GardenZone, ZoneConfig> = {
   self: {

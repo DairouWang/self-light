@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { ZONE_CONFIG } from "@/lib/types/garden";
 import type {
   GardenZone,
-  PathTile as PathTileType,
-  Insight,
+  InsightTile,
   PathMaterial,
 } from "@/lib/types/garden";
 
@@ -106,19 +106,16 @@ function formatInsightDate(createdAt: string) {
 
 export function PathTile({
   tile,
-  insight,
   isSelected,
   onSelect,
 }: {
-  tile: PathTileType;
-  insight: Insight;
+  tile: InsightTile;
   isSelected: boolean;
   onSelect: (id: string | null) => void;
 }) {
   const [isHovered, setIsHovered] = useState(false);
-  const config = materialConfig[tile.material];
+  const config = materialConfig[ZONE_CONFIG[tile.zone].material];
   const tooltip = tooltipPlacement[tile.zone];
-  const isOpen = isHovered || isSelected;
 
   return (
     <div
@@ -127,7 +124,7 @@ export function PathTile({
     >
       <motion.button
         type="button"
-        aria-label={`Open insight from ${tile.zone}: ${insight.insight}`}
+        aria-label={`Open insight in ${tile.zone}: ${tile.content}`}
         className={cn("group relative block cursor-pointer", config.className)}
         onClick={() => onSelect(isSelected ? null : tile.id)}
         onHoverStart={() => setIsHovered(true)}
@@ -136,18 +133,13 @@ export function PathTile({
         onBlur={() => setIsHovered(false)}
         animate={
           isSelected
-            ? {
-                y: -5,
-                scale: 1.06,
-              }
-            : {
-                y: 0,
-                scale: 1,
-              }
+            ? { y: -4, scale: 1.05 }
+            : { y: 0, scale: 1, opacity: 0.9 }
         }
         whileHover={{
-          y: -6,
-          scale: 1.08,
+          y: -5,
+          scale: 1.07,
+          opacity: 1,
           transition: { type: "spring", stiffness: 280, damping: 20 },
         }}
         whileTap={{ scale: 1.02 }}
@@ -157,9 +149,9 @@ export function PathTile({
           style={{ background: config.glow }}
         />
         <span
-          className="absolute inset-x-[4%] bottom-[-18%] h-[50%] rounded-full bg-black/22 blur-[8px]"
+          className="absolute inset-x-[4%] bottom-[-18%] h-[50%] rounded-full bg-black/18 blur-[8px]"
           style={{
-            transform: isSelected ? "scale(0.95)" : "scale(0.88)",
+            transform: isSelected ? "scale(0.95)" : "scale(0.82)",
           }}
         />
         <span
@@ -172,7 +164,7 @@ export function PathTile({
         />
         <span
           className={cn(
-            "absolute inset-0 border border-white/20 shadow-[0_12px_20px_rgba(64,43,25,0.2)]",
+            "absolute inset-0 border border-white/18 shadow-[0_12px_20px_rgba(64,43,25,0.16)]",
             isSelected && "border-white/45",
           )}
           style={{
@@ -180,18 +172,18 @@ export function PathTile({
             clipPath: "polygon(16% 0%, 100% 0%, 84% 100%, 0% 100%)",
             boxShadow: isSelected
               ? "0 0 0 2px rgba(255,255,255,0.28), inset 0 1px 0 rgba(255,255,255,0.32)"
-              : "inset 0 1px 0 rgba(255,255,255,0.26)",
+              : "inset 0 1px 0 rgba(255,255,255,0.22)",
           }}
         />
-        <span className="absolute left-[16%] right-[12%] top-[18%] h-[10%] rounded-full bg-white/18 blur-[2px]" />
+        <span className="absolute left-[16%] right-[12%] top-[18%] h-[10%] rounded-full bg-white/15 blur-[2px]" />
       </motion.button>
 
       <AnimatePresence>
-        {isOpen && (
+        {isHovered ? (
           <motion.div
             key={`${tile.id}-tooltip`}
             className={cn(
-              "pointer-events-none absolute z-30 w-[min(17rem,44vw)] rounded-[24px] border border-white/45 bg-white/60 p-4 text-left text-[#4d4037] shadow-[0_20px_45px_rgba(91,76,63,0.22)] backdrop-blur-xl",
+              "pointer-events-none absolute z-30 w-[min(16rem,42vw)] rounded-[24px] border border-white/45 bg-white/60 p-4 text-left text-[#4d4037] shadow-[0_20px_45px_rgba(91,76,63,0.22)] backdrop-blur-xl",
               tooltip.cardClassName,
             )}
             initial={{ opacity: 0, y: tooltip.initialY, scale: 0.96 }}
@@ -199,21 +191,28 @@ export function PathTile({
             exit={{ opacity: 0, y: tooltip.initialY, scale: 0.96 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
           >
-            <p className="text-[0.86rem] font-semibold leading-relaxed text-[#4a4036]">
-              {insight.insight}
+            <p
+              className="text-[0.86rem] font-semibold leading-relaxed text-[#4a4036]"
+              style={{
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+              }}
+            >
+              {tile.content}
             </p>
-            <p className="mt-2 text-[0.75rem] leading-relaxed text-[#6b5c52]">
-              {insight.rawInput}
+            <p className="mt-3 text-[0.68rem] uppercase tracking-[0.18em] text-[#8b7a6d]">
+              {formatInsightDate(tile.createdAt)}
             </p>
-            <div className="mt-3 flex items-center justify-between gap-3 text-[0.68rem] uppercase tracking-[0.18em] text-[#8b7a6d]">
-              <span>{formatInsightDate(insight.createdAt)}</span>
-              <span>{tile.zone.replace("-", " ")}</span>
-            </div>
             <span
-              className={cn("absolute h-0 w-0 border-solid", tooltip.arrowClassName)}
+              className={cn(
+                "absolute h-0 w-0 border-solid",
+                tooltip.arrowClassName,
+              )}
             />
           </motion.div>
-        )}
+        ) : null}
       </AnimatePresence>
     </div>
   );

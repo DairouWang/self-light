@@ -7,8 +7,7 @@ import { ZONE_CONFIG } from "@/lib/types/garden";
 import type {
   GardenDecoration,
   GardenZone as GardenZoneType,
-  Insight,
-  PathTile as PathTileType,
+  InsightTile,
 } from "@/lib/types/garden";
 
 function decorationStyle(decoration: GardenDecoration) {
@@ -173,13 +172,11 @@ function ZoneDecoration({ decoration }: { decoration: GardenDecoration }) {
 export function GardenZone({
   zone,
   tiles,
-  insights,
   onTileSelect,
   selectedTileId,
 }: {
   zone: GardenZoneType;
-  tiles: PathTileType[];
-  insights: Insight[];
+  tiles: InsightTile[];
   onTileSelect: (id: string | null) => void;
   selectedTileId: string | null;
 }) {
@@ -230,21 +227,9 @@ export function GardenZone({
       ))}
 
       <div className="absolute inset-0 z-20">
-        {tiles.map((tile) => {
-          const insight = insights.find((item) => item.id === tile.insightId);
-
-          if (!insight) {
-            return null;
-          }
-
-          const left =
-            config.pathOrigin.x +
-            tile.x * config.pathVector.x +
-            tile.y * config.rowVector.x;
-          const top =
-            config.pathOrigin.y +
-            tile.x * config.pathVector.y +
-            tile.y * config.rowVector.y;
+        {tiles.map((tile, index) => {
+          const left = config.pathOrigin.x + index * config.pathVector.x;
+          const top = config.pathOrigin.y + index * config.pathVector.y;
 
           return (
             <div
@@ -258,7 +243,6 @@ export function GardenZone({
             >
               <PathTile
                 tile={tile}
-                insight={insight}
                 isSelected={selectedTileId === tile.id}
                 onSelect={onTileSelect}
               />

@@ -1,198 +1,78 @@
-import type { Insight, PathTile } from "@/lib/types/garden";
+import type { InsightTile } from "@/lib/types/garden";
 
-export const sampleInsights: Insight[] = [
+export const sampleInsightTiles: InsightTile[] = [
   {
-    id: "insight-1",
+    id: "tile-1",
     rawInput: "I keep seeking validation from others instead of trusting myself.",
-    scene:
-      "After a meeting where I changed my opinion to match my manager's view",
-    emotion: "insecurity, self-doubt",
-    insight:
-      "I tend to abandon my own perspective when facing authority figures",
-    action: "Practice stating my view first before asking others",
+    content:
+      "I tend to abandon my own perspective when I look for approval first.",
     zone: "self",
     createdAt: "2025-03-10T10:00:00Z",
   },
   {
-    id: "insight-2",
+    id: "tile-2",
     rawInput: "Small steps matter more than big plans.",
-    scene:
-      "Reflecting on how 10 minutes of daily reading added up over months",
-    emotion: "quiet satisfaction, surprise",
-    insight: "Consistent small actions compound into meaningful change",
-    action: "Identify one 10-minute daily habit to start this week",
+    content: "Consistent small actions compound into meaningful change.",
     zone: "self",
     createdAt: "2025-03-11T14:30:00Z",
   },
   {
-    id: "insight-3",
+    id: "tile-3",
     rawInput: "I felt so nervous before the presentation today.",
-    scene: "Heart racing backstage before a team presentation",
-    emotion: "performance anxiety, nervous energy",
-    insight:
-      "My anxiety before performing is actually my body preparing to do well",
-    action: "Reframe pre-event nerves as excitement, not threat",
+    content: "My nerves before performing are often my body preparing me.",
     zone: "emotion",
     createdAt: "2025-03-12T09:15:00Z",
   },
   {
-    id: "insight-4",
+    id: "tile-4",
     rawInput: "Letting myself cry felt unexpectedly freeing.",
-    scene: "Watching a movie alone and finally letting tears flow",
-    emotion: "relief, vulnerability, peace",
-    insight: "Suppressing sadness doesn't remove it — expressing it does",
-    action: "Allow 10 minutes of unfiltered feeling when emotions arise",
+    content: "Expressing sadness helps it move instead of staying stuck.",
     zone: "emotion",
     createdAt: "2025-03-12T21:00:00Z",
   },
   {
-    id: "insight-5",
+    id: "tile-5",
     rawInput: "I got defensive when my friend gave honest feedback.",
-    scene: "A close friend pointed out I tend to dominate conversations",
-    emotion: "defensiveness, then gratitude",
-    insight:
-      "Honest feedback from people who care is a gift, not an attack",
-    action: "Thank someone for feedback before responding to the content",
+    content: "Honest feedback from people who care is not an attack.",
     zone: "relationship",
     createdAt: "2025-03-13T16:45:00Z",
   },
   {
-    id: "insight-6",
+    id: "tile-6",
     rawInput: "Setting boundaries felt wrong but was necessary.",
-    scene: "Telling a colleague I couldn't take on their extra work",
-    emotion: "guilt, then empowerment",
-    insight:
-      "Good boundaries protect relationships rather than damage them",
-    action: "Practice one clear 'no' this week without over-explaining",
+    content: "Clear boundaries protect relationships instead of damaging them.",
     zone: "relationship",
     createdAt: "2025-03-14T11:20:00Z",
   },
   {
-    id: "insight-7",
+    id: "tile-7",
     rawInput: "I realized I've been comparing my path to everyone else's.",
-    scene: "Scrolling through LinkedIn and feeling behind in career",
-    emotion: "inadequacy, comparison fatigue",
-    insight:
-      "Everyone's timeline is different — comparison steals presence",
-    action:
-      "Limit social media to 15 min/day and journal about my own wins",
+    content: "Comparison pulls me away from my own life.",
     zone: "relationship",
     createdAt: "2025-03-14T20:00:00Z",
   },
   {
-    id: "insight-8",
+    id: "tile-8",
     rawInput: "Following curiosity led me somewhere unexpected.",
-    scene: "A random podcast about philosophy sparked a new interest",
-    emotion: "curiosity, openness, excitement",
-    insight:
-      "Following genuine curiosity leads to more fulfillment than following plans",
-    action: "Dedicate one hour weekly to explore something purely for interest",
+    content:
+      "Following genuine curiosity can be more useful than following a rigid plan.",
     zone: "direction",
     createdAt: "2025-03-15T08:00:00Z",
   },
   {
-    id: "insight-9",
+    id: "tile-9",
     rawInput: "I don't need to see the whole path to take one step.",
-    scene: "Feeling paralyzed about a career change decision",
-    emotion: "uncertainty, cautious hope",
-    insight: "Clarity often comes from action, not from more thinking",
-    action: "Take one small experimental step toward the new direction",
+    content: "Clarity often comes from action, not more thinking.",
     zone: "direction",
     createdAt: "2025-03-15T15:30:00Z",
   },
   {
-    id: "insight-10",
+    id: "tile-10",
     rawInput:
       "I noticed I only read books that confirm what I already think.",
-    scene: "Looking at my bookshelf and realizing the pattern",
-    emotion: "mild discomfort, intellectual curiosity",
-    insight:
-      "Growth requires exposure to ideas that challenge my worldview",
-    action: "Read one book this month from a perspective I disagree with",
+    content:
+      "Growth usually starts when I let unfamiliar ideas challenge me.",
     zone: "self",
     createdAt: "2025-03-15T19:00:00Z",
-  },
-];
-
-export const sampleTiles: PathTile[] = [
-  {
-    id: "tile-1",
-    insightId: "insight-1",
-    zone: "self",
-    x: 0,
-    y: 0,
-    material: "wood",
-  },
-  {
-    id: "tile-2",
-    insightId: "insight-2",
-    zone: "self",
-    x: 1,
-    y: 1,
-    material: "wood",
-  },
-  {
-    id: "tile-10",
-    insightId: "insight-10",
-    zone: "self",
-    x: 2,
-    y: 1,
-    material: "wood",
-  },
-  {
-    id: "tile-3",
-    insightId: "insight-3",
-    zone: "emotion",
-    x: 0,
-    y: 0,
-    material: "river-stone",
-  },
-  {
-    id: "tile-4",
-    insightId: "insight-4",
-    zone: "emotion",
-    x: 1,
-    y: 1,
-    material: "river-stone",
-  },
-  {
-    id: "tile-5",
-    insightId: "insight-5",
-    zone: "relationship",
-    x: 0,
-    y: 0,
-    material: "flower-brick",
-  },
-  {
-    id: "tile-6",
-    insightId: "insight-6",
-    zone: "relationship",
-    x: 1,
-    y: 0,
-    material: "flower-brick",
-  },
-  {
-    id: "tile-7",
-    insightId: "insight-7",
-    zone: "relationship",
-    x: 2,
-    y: 1,
-    material: "flower-brick",
-  },
-  {
-    id: "tile-8",
-    insightId: "insight-8",
-    zone: "direction",
-    x: 0,
-    y: 0,
-    material: "stone-brick",
-  },
-  {
-    id: "tile-9",
-    insightId: "insight-9",
-    zone: "direction",
-    x: 1,
-    y: 1,
-    material: "stone-brick",
   },
 ];
