@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { ZONE_CONFIG } from "@/lib/types/garden";
+import selfWoodTileImage from "@/lib/assets/self-garden/wood-tile-transparent.png";
 import type {
   GardenZone,
   InsightTile,
@@ -116,6 +118,7 @@ export function PathTile({
   const [isHovered, setIsHovered] = useState(false);
   const config = materialConfig[ZONE_CONFIG[tile.zone].material];
   const tooltip = tooltipPlacement[tile.zone];
+  const isSelfTile = tile.zone === "self";
 
   return (
     <div
@@ -144,38 +147,70 @@ export function PathTile({
         }}
         whileTap={{ scale: 1.02 }}
       >
-        <span
-          className="absolute inset-x-[12%] top-[8px] h-[28%] rounded-full blur-[7px]"
-          style={{ background: config.glow }}
-        />
-        <span
-          className="absolute inset-x-[4%] bottom-[-18%] h-[50%] rounded-full bg-black/18 blur-[8px]"
-          style={{
-            transform: isSelected ? "scale(0.95)" : "scale(0.82)",
-          }}
-        />
-        <span
-          className="absolute inset-x-[5%] bottom-0 h-[30%]"
-          style={{
-            background: config.edge,
-            clipPath: "polygon(16% 0%, 100% 0%, 84% 100%, 0% 100%)",
-            filter: "brightness(0.92)",
-          }}
-        />
-        <span
-          className={cn(
-            "absolute inset-0 border border-white/18 shadow-[0_12px_20px_rgba(64,43,25,0.16)]",
-            isSelected && "border-white/45",
-          )}
-          style={{
-            background: `${config.detail}, ${config.surface}`,
-            clipPath: "polygon(16% 0%, 100% 0%, 84% 100%, 0% 100%)",
-            boxShadow: isSelected
-              ? "0 0 0 2px rgba(255,255,255,0.28), inset 0 1px 0 rgba(255,255,255,0.32)"
-              : "inset 0 1px 0 rgba(255,255,255,0.22)",
-          }}
-        />
-        <span className="absolute left-[16%] right-[12%] top-[18%] h-[10%] rounded-full bg-white/15 blur-[2px]" />
+        {isSelfTile ? (
+          <>
+            <span className="absolute inset-x-[16%] top-[16%] h-[18%] rounded-full bg-[#f6e0ae]/55 blur-[10px]" />
+            <span
+              className="absolute inset-x-[10%] bottom-[-10%] h-[28%] rounded-full bg-black/22 blur-[8px]"
+              style={{
+                transform: isSelected ? "scale(1)" : "scale(0.84)",
+              }}
+            />
+            <span
+              className={cn(
+                "absolute inset-[-6%] rounded-full border transition-opacity",
+                isSelected
+                  ? "border-white/52 opacity-100"
+                  : "border-white/0 opacity-0",
+              )}
+            />
+            <span className="absolute inset-[-10%]">
+              <Image
+                src={selfWoodTileImage}
+                alt=""
+                aria-hidden="true"
+                fill
+                className="object-contain drop-shadow-[0_8px_16px_rgba(69,46,23,0.16)]"
+                sizes="(max-width: 768px) 18vw, 8vw"
+              />
+            </span>
+          </>
+        ) : (
+          <>
+            <span
+              className="absolute inset-x-[12%] top-[8px] h-[28%] rounded-full blur-[7px]"
+              style={{ background: config.glow }}
+            />
+            <span
+              className="absolute inset-x-[4%] bottom-[-18%] h-[50%] rounded-full bg-black/18 blur-[8px]"
+              style={{
+                transform: isSelected ? "scale(0.95)" : "scale(0.82)",
+              }}
+            />
+            <span
+              className="absolute inset-x-[5%] bottom-0 h-[30%]"
+              style={{
+                background: config.edge,
+                clipPath: "polygon(16% 0%, 100% 0%, 84% 100%, 0% 100%)",
+                filter: "brightness(0.92)",
+              }}
+            />
+            <span
+              className={cn(
+                "absolute inset-0 border border-white/18 shadow-[0_12px_20px_rgba(64,43,25,0.16)]",
+                isSelected && "border-white/45",
+              )}
+              style={{
+                background: `${config.detail}, ${config.surface}`,
+                clipPath: "polygon(16% 0%, 100% 0%, 84% 100%, 0% 100%)",
+                boxShadow: isSelected
+                  ? "0 0 0 2px rgba(255,255,255,0.28), inset 0 1px 0 rgba(255,255,255,0.32)"
+                  : "inset 0 1px 0 rgba(255,255,255,0.22)",
+              }}
+            />
+            <span className="absolute left-[16%] right-[12%] top-[18%] h-[10%] rounded-full bg-white/15 blur-[2px]" />
+          </>
+        )}
       </motion.button>
 
       <AnimatePresence>
