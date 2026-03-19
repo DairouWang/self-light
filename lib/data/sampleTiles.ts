@@ -8,6 +8,8 @@ export const sampleInsightTiles: InsightTile[] = [
       "I tend to abandon my own perspective when I look for approval first.",
     zone: "self",
     createdAt: "2025-03-10T10:00:00Z",
+    x: 110,
+    y: 270,
   },
   {
     id: "tile-2",
@@ -15,6 +17,8 @@ export const sampleInsightTiles: InsightTile[] = [
     content: "Consistent small actions compound into meaningful change.",
     zone: "self",
     createdAt: "2025-03-11T14:30:00Z",
+    x: 170,
+    y: 270,
   },
   {
     id: "tile-3",
@@ -22,6 +26,8 @@ export const sampleInsightTiles: InsightTile[] = [
     content: "My nerves before performing are often my body preparing me.",
     zone: "emotion",
     createdAt: "2025-03-12T09:15:00Z",
+    x: 0,
+    y: 0,
   },
   {
     id: "tile-4",
@@ -29,6 +35,8 @@ export const sampleInsightTiles: InsightTile[] = [
     content: "Expressing sadness helps it move instead of staying stuck.",
     zone: "emotion",
     createdAt: "2025-03-12T21:00:00Z",
+    x: 0,
+    y: 0,
   },
   {
     id: "tile-5",
@@ -36,6 +44,8 @@ export const sampleInsightTiles: InsightTile[] = [
     content: "Honest feedback from people who care is not an attack.",
     zone: "relationship",
     createdAt: "2025-03-13T16:45:00Z",
+    x: 0,
+    y: 0,
   },
   {
     id: "tile-6",
@@ -43,6 +53,8 @@ export const sampleInsightTiles: InsightTile[] = [
     content: "Clear boundaries protect relationships instead of damaging them.",
     zone: "relationship",
     createdAt: "2025-03-14T11:20:00Z",
+    x: 0,
+    y: 0,
   },
   {
     id: "tile-7",
@@ -50,6 +62,8 @@ export const sampleInsightTiles: InsightTile[] = [
     content: "Comparison pulls me away from my own life.",
     zone: "relationship",
     createdAt: "2025-03-14T20:00:00Z",
+    x: 0,
+    y: 0,
   },
   {
     id: "tile-8",
@@ -58,6 +72,8 @@ export const sampleInsightTiles: InsightTile[] = [
       "Following genuine curiosity can be more useful than following a rigid plan.",
     zone: "direction",
     createdAt: "2025-03-15T08:00:00Z",
+    x: 0,
+    y: 0,
   },
   {
     id: "tile-9",
@@ -65,6 +81,8 @@ export const sampleInsightTiles: InsightTile[] = [
     content: "Clarity often comes from action, not more thinking.",
     zone: "direction",
     createdAt: "2025-03-15T15:30:00Z",
+    x: 0,
+    y: 0,
   },
   {
     id: "tile-10",
@@ -74,5 +92,7 @@ export const sampleInsightTiles: InsightTile[] = [
       "Growth usually starts when I let unfamiliar ideas challenge me.",
     zone: "self",
     createdAt: "2025-03-15T19:00:00Z",
+    x: 230,
+    y: 270,
   },
 ];

@@ -2,8 +2,7 @@
 
 import { motion } from "framer-motion";
 import { PathTile } from "./PathTile";
-import { SelfGardenLayeredScene } from "./SelfGardenLayeredScene";
-import { getSelfGardenTilePosition } from "@/lib/data/selfGardenLayers";
+import { SelfZone } from "./SelfZone";
 import { cn } from "@/lib/utils";
 import { ZONE_CONFIG } from "@/lib/types/garden";
 import type {
@@ -184,11 +183,22 @@ export function GardenZone({
 }) {
   const config = ZONE_CONFIG[zone];
   const isSelfZone = zone === "self";
+
+  if (isSelfZone) {
+    return (
+      <SelfZone
+        tiles={tiles}
+        onTileSelect={onTileSelect}
+        selectedTileId={selectedTileId}
+      />
+    );
+  }
+
   const backDecorations = config.decorations.filter(
-    (decoration) => !isSelfZone && decoration.layer !== "front",
+    (decoration) => decoration.layer !== "front",
   );
   const frontDecorations = config.decorations.filter(
-    (decoration) => !isSelfZone && decoration.layer === "front",
+    (decoration) => decoration.layer === "front",
   );
 
   return (
@@ -199,39 +209,31 @@ export function GardenZone({
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
     >
-      {isSelfZone ? null : (
-        <>
-          <div
-            className="absolute inset-0 rounded-[2.75rem] bg-black/10 blur-xl"
-            style={{
-              clipPath: config.clipPath,
-              transform: "translateY(12px) scale(0.97)",
-            }}
-          />
-          <div
-            className="absolute inset-0 border border-white/22 shadow-[inset_0_1px_0_rgba(255,255,255,0.28)]"
-            style={{
-              background: config.surface,
-              clipPath: config.clipPath,
-            }}
-          />
-          <div
-            className="absolute inset-[1%] border border-white/20"
-            style={{
-              clipPath: config.clipPath,
-              background: config.mist,
-            }}
-          />
-          <div
-            className="absolute inset-[4%] border border-dashed border-white/18"
-            style={{ clipPath: config.clipPath }}
-          />
-        </>
-      )}
-
-      {isSelfZone ? (
-        <SelfGardenLayeredScene />
-      ) : null}
+      <div
+        className="absolute inset-0 rounded-[2.75rem] bg-black/10 blur-xl"
+        style={{
+          clipPath: config.clipPath,
+          transform: "translateY(12px) scale(0.97)",
+        }}
+      />
+      <div
+        className="absolute inset-0 border border-white/22 shadow-[inset_0_1px_0_rgba(255,255,255,0.28)]"
+        style={{
+          background: config.surface,
+          clipPath: config.clipPath,
+        }}
+      />
+      <div
+        className="absolute inset-[1%] border border-white/20"
+        style={{
+          clipPath: config.clipPath,
+          background: config.mist,
+        }}
+      />
+      <div
+        className="absolute inset-[4%] border border-dashed border-white/18"
+        style={{ clipPath: config.clipPath }}
+      />
 
       {backDecorations.map((decoration, index) => (
         <ZoneDecoration key={`${zone}-back-${index}`} decoration={decoration} />
@@ -239,18 +241,8 @@ export function GardenZone({
 
       <div className="absolute inset-0 z-20">
         {tiles.map((tile, index) => {
-          const selfPosition = isSelfZone
-            ? getSelfGardenTilePosition(index)
-            : undefined;
-          const left = selfPosition
-            ? selfPosition.x
-            : config.pathOrigin.x + index * config.pathVector.x;
-          const top = selfPosition
-            ? selfPosition.y
-            : config.pathOrigin.y + index * config.pathVector.y;
-          const transform = selfPosition
-            ? `translate(-50%, -50%) rotate(${selfPosition.rotate ?? 0}deg) scale(${selfPosition.scale ?? 1})`
-            : "translate(-50%, -50%)";
+          const left = config.pathOrigin.x + index * config.pathVector.x;
+          const top = config.pathOrigin.y + index * config.pathVector.y;
 
           return (
             <div
@@ -259,7 +251,7 @@ export function GardenZone({
               style={{
                 left: `${left}%`,
                 top: `${top}%`,
-                transform,
+                transform: "translate(-50%, -50%)",
               }}
             >
               <PathTile

@@ -13,6 +13,8 @@ export type InsightTile = {
   content: string;
   zone: GardenZone;
   createdAt: string;
+  x: number;
+  y: number;
   rawInput?: string;
 };
 

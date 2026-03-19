@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GardenStateProvider } from "@/components/garden/GardenStateProvider";
 import { Cormorant_Garamond, Geist_Mono, Nunito } from "next/font/google";
 import "./globals.css";
 
@@ -35,7 +36,7 @@ export default function RootLayout({
       <body
         className={`${gardenBody.variable} ${gardenDisplay.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <GardenStateProvider>{children}</GardenStateProvider>
       </body>
     </html>
   );

@@ -122,13 +122,16 @@ export function PathTile({
 
   return (
     <div
-      className="relative isolate"
+      className={cn("relative isolate", isSelfTile && "h-full w-full")}
       onClick={(event) => event.stopPropagation()}
     >
       <motion.button
         type="button"
         aria-label={`Open insight in ${tile.zone}: ${tile.content}`}
-        className={cn("group relative block cursor-pointer", config.className)}
+        className={cn(
+          "group relative block cursor-pointer",
+          isSelfTile ? "h-full w-full" : config.className,
+        )}
         onClick={() => onSelect(isSelected ? null : tile.id)}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
@@ -171,7 +174,7 @@ export function PathTile({
                 aria-hidden="true"
                 fill
                 className="object-contain drop-shadow-[0_8px_16px_rgba(69,46,23,0.16)]"
-                sizes="(max-width: 768px) 18vw, 8vw"
+                sizes="(max-width: 768px) 14vw, 7vw"
               />
             </span>
           </>

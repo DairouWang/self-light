@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type PointerEvent } from "react";
+import { useGardenState } from "./GardenStateProvider";
 import {
   motion,
   useMotionValue,
@@ -12,7 +13,6 @@ import { FountainInputModal } from "./FountainInputModal";
 import { GardenZone } from "./GardenZone";
 import { InsightDetailPanel } from "./InsightDetailPanel";
 import { InsightReviewModal } from "./InsightReviewModal";
-import { sampleInsightTiles } from "@/lib/data/sampleTiles";
 import { generateInsightMock } from "@/lib/mock/generateInsightMock";
 import { ZONE_CONFIG, type DraftInsight } from "@/lib/types/garden";
 import type {
@@ -83,21 +83,38 @@ function OuterZoneMarker({
   );
 }
 
+function generateNextTilePosition(existingTiles: InsightTile[]) {
+  return {
+    x: 110 + existingTiles.length * 60,
+    y: 270,
+  };
+}
+
 function buildInsightTile(
   draftInput: string,
   draftOutput: DraftInsight,
+  existingTiles: InsightTile[],
 ): InsightTile {
+  const nextPosition =
+    draftOutput.zone === "self"
+      ? generateNextTilePosition(
+          existingTiles.filter((tile) => tile.zone === draftOutput.zone),
+        )
+      : { x: 0, y: 0 };
+
   return {
     id: `tile-${crypto.randomUUID()}`,
     content: draftOutput.content,
     zone: draftOutput.zone,
     createdAt: new Date().toISOString(),
+    x: nextPosition.x,
+    y: nextPosition.y,
     rawInput: draftInput.trim() || undefined,
   };
 }
 
 export function GardenPage() {
-  const [tiles, setTiles] = useState<InsightTile[]>(sampleInsightTiles);
+  const { tiles, setTiles } = useGardenState();
   const [selectedTileId, setSelectedTileId] = useState<string | null>(null);
   const [inputOpen, setInputOpen] = useState(false);
   const [reviewOpen, setReviewOpen] = useState(false);
@@ -195,7 +212,7 @@ export function GardenPage() {
       return;
     }
 
-    const nextTile = buildInsightTile(draftInput, draftOutput);
+    const nextTile = buildInsightTile(draftInput, draftOutput, tiles);
 
     setTiles((currentTiles) => [...currentTiles, nextTile]);
     setSelectedTileId(nextTile.id);
