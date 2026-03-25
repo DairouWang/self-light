@@ -4,6 +4,10 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import {
+  getEmotionStoneAssetByKey,
+} from "@/lib/data/emotionGardenAssets";
+import type { EmotionStoneAssetKey } from "@/lib/data/emotionGardenAssets";
 import { ZONE_CONFIG } from "@/lib/types/garden";
 import selfWoodTileImage from "@/lib/assets/self-garden/wood-tile-transparent.png";
 import type {
@@ -110,19 +114,28 @@ export function PathTile({
   tile,
   isSelected,
   onSelect,
+  emotionStoneAssetKey = "stone-1",
 }: {
   tile: InsightTile;
   isSelected: boolean;
   onSelect: (id: string | null) => void;
+  emotionStoneAssetKey?: EmotionStoneAssetKey;
 }) {
   const [isHovered, setIsHovered] = useState(false);
   const config = materialConfig[ZONE_CONFIG[tile.zone].material];
   const tooltip = tooltipPlacement[tile.zone];
   const isSelfTile = tile.zone === "self";
+  const isEmotionTile = tile.zone === "emotion";
+  const emotionStoneAsset = isEmotionTile
+    ? getEmotionStoneAssetByKey(emotionStoneAssetKey)
+    : null;
 
   return (
     <div
-      className={cn("relative isolate", isSelfTile && "h-full w-full")}
+      className={cn(
+        "relative isolate",
+        (isSelfTile || isEmotionTile) && "h-full w-full",
+      )}
       onClick={(event) => event.stopPropagation()}
     >
       <motion.button
@@ -130,7 +143,7 @@ export function PathTile({
         aria-label={`Open insight in ${tile.zone}: ${tile.content}`}
         className={cn(
           "group relative block cursor-pointer",
-          isSelfTile ? "h-full w-full" : config.className,
+          isSelfTile || isEmotionTile ? "h-full w-full" : config.className,
         )}
         onClick={() => onSelect(isSelected ? null : tile.id)}
         onHoverStart={() => setIsHovered(true)}
@@ -175,6 +188,34 @@ export function PathTile({
                 fill
                 className="object-contain drop-shadow-[0_8px_16px_rgba(69,46,23,0.16)]"
                 sizes="(max-width: 768px) 14vw, 7vw"
+              />
+            </span>
+          </>
+        ) : isEmotionTile ? (
+          <>
+            <span className="absolute inset-x-[16%] top-[18%] h-[18%] rounded-full bg-[#f6efe1]/40 blur-[10px]" />
+            <span
+              className="absolute inset-x-[14%] bottom-[-10%] h-[26%] rounded-full bg-black/18 blur-[8px]"
+              style={{
+                transform: isSelected ? "scale(1)" : "scale(0.82)",
+              }}
+            />
+            <span
+              className={cn(
+                "absolute inset-[-6%] rounded-full border transition-opacity",
+                isSelected
+                  ? "border-white/52 opacity-100"
+                  : "border-white/0 opacity-0",
+              )}
+            />
+            <span className="absolute inset-0 overflow-visible">
+              <Image
+                src={emotionStoneAsset!}
+                alt=""
+                aria-hidden="true"
+                fill
+                className="object-contain drop-shadow-[0_10px_18px_rgba(85,75,58,0.2)]"
+                sizes="(max-width: 768px) 16vw, 9vw"
               />
             </span>
           </>

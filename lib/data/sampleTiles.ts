@@ -39,6 +39,15 @@ export const sampleInsightTiles: InsightTile[] = [
     y: 0,
   },
   {
+    id: "tile-11",
+    rawInput: "I kept trying to suppress my frustration instead of naming it.",
+    content: "Naming frustration clearly helps it move instead of leaking out.",
+    zone: "emotion",
+    createdAt: "2025-03-13T07:45:00Z",
+    x: 0,
+    y: 0,
+  },
+  {
     id: "tile-5",
     rawInput: "I got defensive when my friend gave honest feedback.",
     content: "Honest feedback from people who care is not an attack.",

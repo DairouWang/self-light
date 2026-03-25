@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { EmotionZone } from "./EmotionZone";
 import { PathTile } from "./PathTile";
 import { SelfZone } from "./SelfZone";
 import { cn } from "@/lib/utils";
@@ -183,10 +184,21 @@ export function GardenZone({
 }) {
   const config = ZONE_CONFIG[zone];
   const isSelfZone = zone === "self";
+  const isEmotionZone = zone === "emotion";
 
   if (isSelfZone) {
     return (
       <SelfZone
+        tiles={tiles}
+        onTileSelect={onTileSelect}
+        selectedTileId={selectedTileId}
+      />
+    );
+  }
+
+  if (isEmotionZone) {
+    return (
+      <EmotionZone
         tiles={tiles}
         onTileSelect={onTileSelect}
         selectedTileId={selectedTileId}
