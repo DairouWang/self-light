@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { DirectionZone } from "./DirectionZone";
 import { EmotionZone } from "./EmotionZone";
 import { PathTile } from "./PathTile";
 import { RelationshipZone } from "./RelationshipZone";
@@ -187,6 +188,7 @@ export function GardenZone({
   const isSelfZone = zone === "self";
   const isEmotionZone = zone === "emotion";
   const isRelationshipZone = zone === "relationship";
+  const isDirectionZone = zone === "direction";
 
   if (isSelfZone) {
     return (
@@ -211,6 +213,16 @@ export function GardenZone({
   if (isRelationshipZone) {
     return (
       <RelationshipZone
+        tiles={tiles}
+        onTileSelect={onTileSelect}
+        selectedTileId={selectedTileId}
+      />
+    );
+  }
+
+  if (isDirectionZone) {
+    return (
+      <DirectionZone
         tiles={tiles}
         onTileSelect={onTileSelect}
         selectedTileId={selectedTileId}

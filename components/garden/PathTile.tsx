@@ -11,6 +11,10 @@ import {
   relationshipFlowerBrickAsset,
   relationshipTileImageWidthPercent,
 } from "@/lib/data/relationshipGardenAssets";
+import {
+  directionStoneBrickAsset,
+  directionTileImageWidthPercent,
+} from "@/lib/data/directionGardenAssets";
 import type { EmotionStoneAssetKey } from "@/lib/data/emotionGardenAssets";
 import { ZONE_CONFIG } from "@/lib/types/garden";
 import selfWoodTileImage from "@/lib/assets/self-garden/wood-tile-transparent.png";
@@ -131,6 +135,7 @@ export function PathTile({
   const isSelfTile = tile.zone === "self";
   const isEmotionTile = tile.zone === "emotion";
   const isRelationshipTile = tile.zone === "relationship";
+  const isDirectionTile = tile.zone === "direction";
   const emotionStoneAsset = isEmotionTile
     ? getEmotionStoneAssetByKey(emotionStoneAssetKey)
     : null;
@@ -139,7 +144,11 @@ export function PathTile({
     <div
       className={cn(
         "relative isolate",
-        (isSelfTile || isEmotionTile || isRelationshipTile) && "h-full w-full",
+        (isSelfTile ||
+          isEmotionTile ||
+          isRelationshipTile ||
+          isDirectionTile) &&
+          "h-full w-full",
       )}
       onClick={(event) => event.stopPropagation()}
     >
@@ -148,7 +157,7 @@ export function PathTile({
         aria-label={`Open insight in ${tile.zone}: ${tile.content}`}
         className={cn(
           "group relative block cursor-pointer",
-          isSelfTile || isEmotionTile || isRelationshipTile
+          isSelfTile || isEmotionTile || isRelationshipTile || isDirectionTile
             ? "h-full w-full"
             : config.className,
         )}
@@ -253,6 +262,36 @@ export function PathTile({
                 className="absolute bottom-0 right-0 h-auto drop-shadow-[0_12px_20px_rgba(96,68,54,0.2)]"
                 style={{ width: `${relationshipTileImageWidthPercent}%` }}
                 sizes="(max-width: 768px) 20vw, 11vw"
+              />
+            </span>
+          </>
+        ) : isDirectionTile ? (
+          <>
+            <span className="absolute inset-0 rounded-[1.3rem] border border-white/0 transition-colors group-hover:border-white/22" />
+            <span
+              className="absolute bottom-[6%] left-1/2 h-[22%] w-[72%] -translate-x-1/2 rounded-full bg-black/16 blur-[8px]"
+              style={{
+                transform: `translateX(-50%) scale(${isSelected ? 1 : 0.84})`,
+              }}
+            />
+            <span
+              className={cn(
+                "absolute inset-[7%] rounded-[1.4rem] border transition-opacity",
+                isSelected
+                  ? "border-white/40 opacity-100"
+                  : "border-white/0 opacity-0",
+              )}
+            />
+            <span className="absolute inset-0 overflow-visible">
+              <Image
+                src={directionStoneBrickAsset}
+                alt=""
+                aria-hidden="true"
+                width={directionStoneBrickAsset.width}
+                height={directionStoneBrickAsset.height}
+                className="absolute left-1/2 top-1/2 h-auto -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_10px_20px_rgba(89,88,78,0.18)]"
+                style={{ width: `${directionTileImageWidthPercent}%` }}
+                sizes="(max-width: 768px) 18vw, 10vw"
               />
             </span>
           </>

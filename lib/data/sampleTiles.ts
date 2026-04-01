@@ -94,6 +94,16 @@ export const sampleInsightTiles: InsightTile[] = [
     y: 0,
   },
   {
+    id: "tile-12",
+    rawInput: "The next right move is clearer when I commit to one direction.",
+    content:
+      "Choosing one step creates more direction than waiting for perfect certainty.",
+    zone: "direction",
+    createdAt: "2025-03-15T18:45:00Z",
+    x: 0,
+    y: 0,
+  },
+  {
     id: "tile-10",
     rawInput:
       "I noticed I only read books that confirm what I already think.",
