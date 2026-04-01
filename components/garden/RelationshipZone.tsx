@@ -33,6 +33,12 @@ export function RelationshipZone({
       initial={{ opacity: 0, y: 24, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{
+        y: -4,
+        scale: 1.02,
+        transition: { type: "spring", stiffness: 220, damping: 18 },
+      }}
+      whileTap={{ scale: 0.992 }}
       onClick={(event) => {
         event.stopPropagation();
         router.push("/garden/relationship");

@@ -295,8 +295,8 @@ export function GardenPage() {
               ))}
             </motion.div>
 
-            <div className="pointer-events-none absolute left-1/2 top-1/2 h-[23%] w-[23%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-[radial-gradient(circle_at_50%_30%,rgba(255,249,236,0.9)_0%,rgba(219,220,205,0.65)_45%,rgba(178,178,167,0.72)_100%)] shadow-[0_20px_50px_rgba(91,79,60,0.14)]" />
-            <div className="pointer-events-none absolute left-1/2 top-1/2 h-[29%] w-[29%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-white/20" />
+            <div className="pointer-events-none absolute left-1/2 top-1/2 h-[24%] w-[28%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-[radial-gradient(circle_at_50%_56%,rgba(107,91,68,0.2)_0%,rgba(132,116,89,0.08)_32%,transparent_72%)] blur-[2px]" />
+            <div className="pointer-events-none absolute left-1/2 top-1/2 h-[19%] w-[20%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_50%_40%,rgba(255,248,234,0.54)_0%,rgba(228,226,208,0.26)_48%,transparent_100%)] blur-xl" />
 
             <GardenZone
               zone="self"

@@ -8,10 +8,12 @@ export function EmotionGardenCanvas({
   tiles,
   onTileSelect,
   selectedTileId,
+  baseImageClassName,
 }: {
   tiles: InsightTile[];
   onTileSelect: (id: string | null) => void;
   selectedTileId: string | null;
+  baseImageClassName?: string;
 }) {
   return (
     <div
@@ -19,7 +21,7 @@ export function EmotionGardenCanvas({
       data-emotion-canvas
     >
       <div className="absolute inset-[-2%]">
-        <EmotionGardenLayeredScene />
+        <EmotionGardenLayeredScene imageClassName={baseImageClassName} />
         <EmotionTileLayer
           tiles={tiles}
           onTileSelect={onTileSelect}
