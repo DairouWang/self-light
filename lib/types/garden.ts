@@ -166,8 +166,8 @@ export const ZONE_CONFIG: Record<GardenZone, ZoneConfig> = {
       "radial-gradient(circle at 22% 24%, rgba(251, 228, 214, 0.46) 0%, transparent 30%), radial-gradient(circle at 76% 66%, rgba(214, 149, 131, 0.2) 0%, transparent 32%), linear-gradient(180deg, rgba(220, 177, 156, 0.94) 0%, rgba(194, 142, 124, 0.96) 100%)",
     mist:
       "radial-gradient(circle at 62% 30%, rgba(255, 244, 237, 0.34) 0%, transparent 44%), radial-gradient(circle at 24% 76%, rgba(180, 98, 89, 0.14) 0%, transparent 38%)",
-    pathOrigin: { x: 62, y: 36 },
-    pathVector: { x: -11, y: 11 },
+    pathOrigin: { x: 34, y: 64 },
+    pathVector: { x: 9, y: -7 },
     rowVector: { x: -5, y: 8 },
     decorations: [
       { kind: "flower-bed", x: 20, y: 26, scale: 1, layer: "front" },

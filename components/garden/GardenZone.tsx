@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { EmotionZone } from "./EmotionZone";
 import { PathTile } from "./PathTile";
+import { RelationshipZone } from "./RelationshipZone";
 import { SelfZone } from "./SelfZone";
 import { cn } from "@/lib/utils";
 import { ZONE_CONFIG } from "@/lib/types/garden";
@@ -185,6 +186,7 @@ export function GardenZone({
   const config = ZONE_CONFIG[zone];
   const isSelfZone = zone === "self";
   const isEmotionZone = zone === "emotion";
+  const isRelationshipZone = zone === "relationship";
 
   if (isSelfZone) {
     return (
@@ -199,6 +201,16 @@ export function GardenZone({
   if (isEmotionZone) {
     return (
       <EmotionZone
+        tiles={tiles}
+        onTileSelect={onTileSelect}
+        selectedTileId={selectedTileId}
+      />
+    );
+  }
+
+  if (isRelationshipZone) {
+    return (
+      <RelationshipZone
         tiles={tiles}
         onTileSelect={onTileSelect}
         selectedTileId={selectedTileId}

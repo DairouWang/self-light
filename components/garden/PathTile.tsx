@@ -7,6 +7,10 @@ import { cn } from "@/lib/utils";
 import {
   getEmotionStoneAssetByKey,
 } from "@/lib/data/emotionGardenAssets";
+import {
+  relationshipFlowerBrickAsset,
+  relationshipTileImageWidthPercent,
+} from "@/lib/data/relationshipGardenAssets";
 import type { EmotionStoneAssetKey } from "@/lib/data/emotionGardenAssets";
 import { ZONE_CONFIG } from "@/lib/types/garden";
 import selfWoodTileImage from "@/lib/assets/self-garden/wood-tile-transparent.png";
@@ -126,6 +130,7 @@ export function PathTile({
   const tooltip = tooltipPlacement[tile.zone];
   const isSelfTile = tile.zone === "self";
   const isEmotionTile = tile.zone === "emotion";
+  const isRelationshipTile = tile.zone === "relationship";
   const emotionStoneAsset = isEmotionTile
     ? getEmotionStoneAssetByKey(emotionStoneAssetKey)
     : null;
@@ -134,7 +139,7 @@ export function PathTile({
     <div
       className={cn(
         "relative isolate",
-        (isSelfTile || isEmotionTile) && "h-full w-full",
+        (isSelfTile || isEmotionTile || isRelationshipTile) && "h-full w-full",
       )}
       onClick={(event) => event.stopPropagation()}
     >
@@ -143,7 +148,9 @@ export function PathTile({
         aria-label={`Open insight in ${tile.zone}: ${tile.content}`}
         className={cn(
           "group relative block cursor-pointer",
-          isSelfTile || isEmotionTile ? "h-full w-full" : config.className,
+          isSelfTile || isEmotionTile || isRelationshipTile
+            ? "h-full w-full"
+            : config.className,
         )}
         onClick={() => onSelect(isSelected ? null : tile.id)}
         onHoverStart={() => setIsHovered(true)}
@@ -216,6 +223,36 @@ export function PathTile({
                 fill
                 className="object-contain drop-shadow-[0_10px_18px_rgba(85,75,58,0.2)]"
                 sizes="(max-width: 768px) 16vw, 9vw"
+              />
+            </span>
+          </>
+        ) : isRelationshipTile ? (
+          <>
+            <span className="absolute inset-0 rounded-[1.6rem] border border-white/0 transition-colors group-hover:border-white/26" />
+            <span
+              className="absolute bottom-[2%] right-[4%] h-[16%] w-[72%] rounded-full bg-black/18 blur-[8px]"
+              style={{
+                transform: isSelected ? "scale(1)" : "scale(0.84)",
+              }}
+            />
+            <span
+              className={cn(
+                "absolute inset-[4%] rounded-[1.7rem] border transition-opacity",
+                isSelected
+                  ? "border-white/44 opacity-100"
+                  : "border-white/0 opacity-0",
+              )}
+            />
+            <span className="absolute inset-0 overflow-visible">
+              <Image
+                src={relationshipFlowerBrickAsset}
+                alt=""
+                aria-hidden="true"
+                width={relationshipFlowerBrickAsset.width}
+                height={relationshipFlowerBrickAsset.height}
+                className="absolute bottom-0 right-0 h-auto drop-shadow-[0_12px_20px_rgba(96,68,54,0.2)]"
+                style={{ width: `${relationshipTileImageWidthPercent}%` }}
+                sizes="(max-width: 768px) 20vw, 11vw"
               />
             </span>
           </>
