@@ -4,8 +4,8 @@ import { PathTile } from "./PathTile";
 import {
   directionStoneBrickAspectRatio,
   directionTileSlotWidthPercent,
-  getDirectionTileSlot,
 } from "@/lib/data/directionGardenAssets";
+import { getZonePlacementPoint } from "@/lib/garden/zonePoints";
 import type { InsightTile } from "@/lib/types/garden";
 
 export function DirectionTileLayer({
@@ -20,7 +20,7 @@ export function DirectionTileLayer({
   return (
     <div className="absolute inset-0 z-20">
       {tiles.map((tile, index) => {
-        const slot = getDirectionTileSlot(index);
+        const point = getZonePlacementPoint("direction", index);
 
         return (
           <div
@@ -29,8 +29,8 @@ export function DirectionTileLayer({
             data-direction-tile={tile.id}
             data-direction-tile-index={index}
             style={{
-              left: `${slot.x}%`,
-              top: `${slot.y}%`,
+              left: `${point.x}%`,
+              top: `${point.y}%`,
               width: `${directionTileSlotWidthPercent}%`,
               height: `${directionTileSlotWidthPercent / directionStoneBrickAspectRatio}%`,
               transform: "translate(-50%, -50%)",

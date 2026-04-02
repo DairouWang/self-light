@@ -1,11 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import { PathDebugOverlay } from "@/components/debug/PathDebugOverlay";
 import { RelationshipTileLayer } from "./RelationshipTileLayer";
+import { DEBUG_PATH_MODE } from "@/lib/config/debug";
 import {
   relationshipCanvasInsetPercent,
   relationshipGardenBaseAsset,
 } from "@/lib/data/relationshipGardenAssets";
+import { RELATIONSHIP_POINTS } from "@/lib/garden/relationshipPoints";
 import type { InsightTile } from "@/lib/types/garden";
 
 export function RelationshipGardenCanvas({
@@ -39,6 +42,13 @@ export function RelationshipGardenCanvas({
           onTileSelect={onTileSelect}
           selectedTileId={selectedTileId}
         />
+        {DEBUG_PATH_MODE ? (
+          <PathDebugOverlay
+            zone="relationship"
+            points={RELATIONSHIP_POINTS}
+            usedCount={tiles.length}
+          />
+        ) : null}
       </div>
     </div>
   );

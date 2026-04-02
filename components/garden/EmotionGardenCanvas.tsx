@@ -1,7 +1,10 @@
 "use client";
 
+import { PathDebugOverlay } from "@/components/debug/PathDebugOverlay";
 import { EmotionGardenLayeredScene } from "./EmotionGardenLayeredScene";
 import { EmotionTileLayer } from "./EmotionTileLayer";
+import { DEBUG_PATH_MODE } from "@/lib/config/debug";
+import { EMOTION_POINTS } from "@/lib/data/emotionGardenAssets";
 import type { InsightTile } from "@/lib/types/garden";
 
 export function EmotionGardenCanvas({
@@ -27,6 +30,13 @@ export function EmotionGardenCanvas({
           onTileSelect={onTileSelect}
           selectedTileId={selectedTileId}
         />
+        {DEBUG_PATH_MODE ? (
+          <PathDebugOverlay
+            zone="emotion"
+            points={EMOTION_POINTS}
+            usedCount={tiles.length}
+          />
+        ) : null}
       </div>
     </div>
   );

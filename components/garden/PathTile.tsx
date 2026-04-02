@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { DEBUG_PATH_MODE } from "@/lib/config/debug";
 import {
   getEmotionStoneAssetByKey,
 } from "@/lib/data/emotionGardenAssets";
@@ -144,6 +145,7 @@ export function PathTile({
     <div
       className={cn(
         "relative isolate",
+        DEBUG_PATH_MODE && "pointer-events-none",
         (isSelfTile ||
           isEmotionTile ||
           isRelationshipTile ||
@@ -156,7 +158,8 @@ export function PathTile({
         type="button"
         aria-label={`Open insight in ${tile.zone}: ${tile.content}`}
         className={cn(
-          "group relative block cursor-pointer",
+          "group relative block",
+          DEBUG_PATH_MODE ? "cursor-default" : "cursor-pointer",
           isSelfTile || isEmotionTile || isRelationshipTile || isDirectionTile
             ? "h-full w-full"
             : config.className,

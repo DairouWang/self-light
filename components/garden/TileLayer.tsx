@@ -1,16 +1,12 @@
 "use client";
 
 import { PathTile } from "./PathTile";
+import { getZonePlacementPoint } from "@/lib/garden/zonePoints";
 import type { InsightTile } from "@/lib/types/garden";
 
-const selfTileCoordinateSpace = {
-  width: 700,
-  height: 420,
-} as const;
-
 const selfTileVisualSize = {
-  width: 104,
-  height: 62,
+  widthPercent: 104 / 700,
+  heightPercent: 62 / 420,
 } as const;
 
 export function TileLayer({
@@ -24,25 +20,29 @@ export function TileLayer({
 }) {
   return (
     <div className="absolute inset-0 z-20">
-      {tiles.map((tile) => (
-        <div
-          key={tile.id}
-          className="absolute"
-          style={{
-            left: `${(tile.x / selfTileCoordinateSpace.width) * 100}%`,
-            top: `${(tile.y / selfTileCoordinateSpace.height) * 100}%`,
-            width: `${(selfTileVisualSize.width / selfTileCoordinateSpace.width) * 100}%`,
-            height: `${(selfTileVisualSize.height / selfTileCoordinateSpace.height) * 100}%`,
-            transform: "translate(-50%, -50%)",
-          }}
-        >
+      {tiles.map((tile, index) => {
+        const point = getZonePlacementPoint("self", index);
+
+        return (
+          <div
+            key={tile.id}
+            className="absolute"
+            style={{
+              left: `${point.x}%`,
+              top: `${point.y}%`,
+              width: `${selfTileVisualSize.widthPercent * 100}%`,
+              height: `${selfTileVisualSize.heightPercent * 100}%`,
+              transform: "translate(-50%, -50%)",
+            }}
+          >
           <PathTile
             tile={tile}
             isSelected={selectedTileId === tile.id}
             onSelect={onTileSelect}
           />
-        </div>
-      ))}
+          </div>
+        );
+      })}
     </div>
   );
 }

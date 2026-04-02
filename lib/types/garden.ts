@@ -2,6 +2,11 @@ import type { CSSProperties } from "react";
 
 export type GardenZone = "self" | "emotion" | "relationship" | "direction";
 
+export type Point = {
+  x: number;
+  y: number;
+};
+
 export type PathMaterial =
   | "wood"
   | "river-stone"

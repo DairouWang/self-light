@@ -1,11 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import { PathDebugOverlay } from "@/components/debug/PathDebugOverlay";
 import { DirectionTileLayer } from "./DirectionTileLayer";
+import { DEBUG_PATH_MODE } from "@/lib/config/debug";
 import {
   directionCanvasInsetPercent,
   directionGardenBaseAsset,
 } from "@/lib/data/directionGardenAssets";
+import { DIRECTION_POINTS } from "@/lib/garden/directionPoints";
 import type { InsightTile } from "@/lib/types/garden";
 
 export function DirectionGardenCanvas({
@@ -36,6 +39,13 @@ export function DirectionGardenCanvas({
           onTileSelect={onTileSelect}
           selectedTileId={selectedTileId}
         />
+        {DEBUG_PATH_MODE ? (
+          <PathDebugOverlay
+            zone="direction"
+            points={DIRECTION_POINTS}
+            usedCount={tiles.length}
+          />
+        ) : null}
       </div>
     </div>
   );

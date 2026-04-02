@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { DEBUG_PATH_MODE } from "@/lib/config/debug";
 import { DirectionZone } from "./DirectionZone";
 import { EmotionZone } from "./EmotionZone";
 import { PathTile } from "./PathTile";
@@ -193,6 +194,7 @@ export function GardenZone({
   if (isSelfZone) {
     return (
       <SelfZone
+        debugPathMode={DEBUG_PATH_MODE}
         tiles={tiles}
         onTileSelect={onTileSelect}
         selectedTileId={selectedTileId}
@@ -203,6 +205,7 @@ export function GardenZone({
   if (isEmotionZone) {
     return (
       <EmotionZone
+        debugPathMode={DEBUG_PATH_MODE}
         tiles={tiles}
         onTileSelect={onTileSelect}
         selectedTileId={selectedTileId}
@@ -213,6 +216,7 @@ export function GardenZone({
   if (isRelationshipZone) {
     return (
       <RelationshipZone
+        debugPathMode={DEBUG_PATH_MODE}
         tiles={tiles}
         onTileSelect={onTileSelect}
         selectedTileId={selectedTileId}
@@ -223,6 +227,7 @@ export function GardenZone({
   if (isDirectionZone) {
     return (
       <DirectionZone
+        debugPathMode={DEBUG_PATH_MODE}
         tiles={tiles}
         onTileSelect={onTileSelect}
         selectedTileId={selectedTileId}

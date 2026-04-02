@@ -5,7 +5,7 @@ import {
   relationshipFlowerBrickAspectRatio,
   relationshipTileSlotWidthPercent,
 } from "@/lib/data/relationshipGardenAssets";
-import { ZONE_CONFIG } from "@/lib/types/garden";
+import { getZonePlacementPoint } from "@/lib/garden/zonePoints";
 import type { InsightTile } from "@/lib/types/garden";
 
 export function RelationshipTileLayer({
@@ -17,13 +17,10 @@ export function RelationshipTileLayer({
   onTileSelect: (id: string | null) => void;
   selectedTileId: string | null;
 }) {
-  const { pathOrigin, pathVector } = ZONE_CONFIG.relationship;
-
   return (
     <div className="absolute inset-0 z-20">
       {tiles.map((tile, index) => {
-        const left = pathOrigin.x + index * pathVector.x;
-        const top = pathOrigin.y + index * pathVector.y;
+        const point = getZonePlacementPoint("relationship", index);
 
         return (
           <div
@@ -32,8 +29,8 @@ export function RelationshipTileLayer({
             data-relationship-tile={tile.id}
             data-relationship-tile-index={index}
             style={{
-              left: `${left}%`,
-              top: `${top}%`,
+              left: `${point.x}%`,
+              top: `${point.y}%`,
               width: `${relationshipTileSlotWidthPercent}%`,
               height: `${relationshipTileSlotWidthPercent / relationshipFlowerBrickAspectRatio}%`,
               transform: "translate(-50%, -50%)",

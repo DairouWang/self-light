@@ -13,6 +13,7 @@ import { FountainInputModal } from "./FountainInputModal";
 import { GardenZone } from "./GardenZone";
 import { InsightDetailPanel } from "./InsightDetailPanel";
 import { InsightReviewModal } from "./InsightReviewModal";
+import { getZonePlacementPoint } from "@/lib/garden/zonePoints";
 import { generateInsightMock } from "@/lib/mock/generateInsightMock";
 import { ZONE_CONFIG, type DraftInsight } from "@/lib/types/garden";
 import type {
@@ -83,24 +84,13 @@ function OuterZoneMarker({
   );
 }
 
-function generateNextTilePosition(existingTiles: InsightTile[]) {
-  return {
-    x: 110 + existingTiles.length * 60,
-    y: 270,
-  };
-}
-
 function buildInsightTile(
   draftInput: string,
   draftOutput: DraftInsight,
   existingTiles: InsightTile[],
 ): InsightTile {
-  const nextPosition =
-    draftOutput.zone === "self"
-      ? generateNextTilePosition(
-          existingTiles.filter((tile) => tile.zone === draftOutput.zone),
-        )
-      : { x: 0, y: 0 };
+  const tilesInZone = existingTiles.filter((tile) => tile.zone === draftOutput.zone);
+  const nextPosition = getZonePlacementPoint(draftOutput.zone, tilesInZone.length);
 
   return {
     id: `tile-${crypto.randomUUID()}`,
